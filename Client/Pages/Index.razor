@@ -1,0 +1,259 @@
+﻿@page "/"
+@using MyBirds.Shared
+@inject HttpClient Http
+
+<PageTitle>Index</PageTitle>
+
+@if (_ordersViewModelInDisplay is not null)
+{
+    <h1>Totals</h1>
+    <ul>
+        <li>Families: @_totalFamilies</li>
+        <li>Genra: @_totalGenra</li>
+        <li>Species: @_totalSpecies</li>
+        <li>Pictures: @_totalPictures</li>
+    </ul>
+
+    <div style="display: table; width: 100%">
+        <div style="display: table-cell">
+            <h1>Top 10 Pictures</h1>
+            <ol>
+                @foreach (var sp in _top10Pictures)
+                {
+                    <li>@sp.Species: <i>@sp.PicturesCount</i></li>
+                }
+            </ol>
+        </div>
+        <div style="display: table-cell">
+            <h1>Top 10 Genus</h1>
+            <ol>
+                @foreach (var sp in _top10Genera)
+                {
+                    <li>@sp.Genus: <i>@sp.SpeciesCount</i></li>
+                }
+            </ol>
+        </div>
+        <div style="display: table-cell">
+            <h1>Top 10 Families</h1>
+            <ol>
+                @foreach (var sp in _top10Families)
+                {
+                    <li>@sp.Family: <i>@sp.SpeciesCount</i></li>
+                }
+            </ol>
+        </div>
+        <div style="display: table-cell">
+            <h1>Species per Country</h1>
+            <ol style="columns: 3; -webkit-columns: 3; -moz-columns: 3;">
+                @foreach (var sp in _speciesPerCountry)
+                {
+                    @if (sp.Country == Country.Unknown)
+                    {
+                        <li @onclick="() => FilterByCountry(sp.Country)">@sp.Country <i>@sp.SpeciesCount</i></li>
+                    }
+                    else
+                    {
+                        <li @onclick="() => FilterByCountry(sp.Country)"><img src="@GetFlagPath(sp.Country)" width="16" /> <i>@sp.SpeciesCount</i></li>
+                    }
+                }
+            </ol>
+        </div>
+    </div>
+
+    @foreach (var order in _ordersViewModelInDisplay)
+    {
+        <h1 style="background-color: lightgrey; padding: 8px; border-radius: 16px;" @onclick="() => Toggle(order)">
+            @_orderCount. @order.Order (Families: @order.Families.Count() - Genus: @order.Families.SelectMany(f => f.Genera).Count() - Species: @order.Families.SelectMany(f => f.Genera).SelectMany(s => s.Species).Count()) - Pictures: @order.Families.SelectMany(f => f.Genera).SelectMany(s => s.Species).Sum(s => s.PicturesCount))
+        </h1>
+        @foreach (var family in order.Families)
+        {
+            @if (order.Order == _activeOrder.Order)//.IsActive)
+            {
+                <h2 style="padding-left: 64px;">@family.Family (Genus: @family.Genera.Count())</h2>
+                @foreach (var genus in family.Genera)
+                {
+                    <h3 style="padding-left: 128px;">@genus.Genus (@genus.Species.Count())</h3>
+                    @foreach (var species in genus.Species)
+                    {
+                        <p style="padding-left: 256px;">
+                            @species.Name (<i>@species.Species</i>) - @species.PicturesCount
+                            @foreach (var country in species.Countries)
+                            {
+                                @if (country != Country.Unknown)
+                                {
+                                    <img src="@GetFlagPath(country)" width="16" />
+                                }
+                                else
+                                {
+                                    <span>?</span>
+                                }
+                            }
+                        </p>
+                    }
+                }
+            }
+        }
+
+        _orderCount++;
+    }
+}
+
+@code {
+    private IEnumerable<OrderGroupViewModel>? _ordersViewModel = null;
+    private IEnumerable<OrderGroupViewModel>? _ordersViewModelInDisplay = null;
+    private Country? filteredBy;
+    private OrderGroupViewModel _activeOrder = new();
+    private int _totalFamilies;
+    private int _totalSpecies;
+    private int _totalGenra;
+    private int _totalPictures;
+    private IEnumerable<(string Species, int PicturesCount)> _top10Pictures;
+    private IEnumerable<(string Genus, int SpeciesCount)> _top10Genera;
+    private IEnumerable<(string Family, int SpeciesCount)> _top10Families;
+    private IEnumerable<(Country Country, int SpeciesCount)> _speciesPerCountry;
+    private int _orderCount = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _ordersViewModel = _ordersViewModelInDisplay = (await Http.GetFromJsonAsync<IEnumerable<OrderGroupViewModel>>("birds"))!;
+        var families = _ordersViewModel.SelectMany(o => o.Families);
+        _totalFamilies = families.Count();
+        var genra = families.SelectMany(f => f.Genera);
+        _totalGenra = genra.Count();
+        var species = genra.SelectMany(f => f.Species);
+        _totalSpecies = species.Count();
+        _totalPictures = species.Sum(s => s.PicturesCount);
+        _top10Pictures = GetTop10SpeciesWithMostPictures(_ordersViewModel);
+        _top10Genera = GetTop10GeneraWithMostSpecies(_ordersViewModel);
+        _top10Families = GetTop10FamiliesWithMostSpecies(_ordersViewModel);
+        _speciesPerCountry = GetSpeciesCountByCountry(_ordersViewModel);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        _orderCount = 1;
+        return Task.CompletedTask;
+    }
+
+    public void Toggle(OrderGroupViewModel order)
+    {
+        if (order.Order == _activeOrder.Order)
+        {
+            _activeOrder = new();
+        }
+        else
+        {
+            _activeOrder = order;
+        }
+    }
+
+    public void FilterByCountry(Country country)
+    {
+        if (filteredBy is not null && filteredBy == country)
+        {
+            _ordersViewModelInDisplay = _ordersViewModel;
+            filteredBy = null;
+            return;
+        }
+
+        filteredBy = country;
+        _ordersViewModelInDisplay = _ordersViewModel!
+            .Select(o => new OrderGroupViewModel
+                {
+                    Order = o.Order,
+                    Families = o.Families
+                                .Select(f => new FamilyGroupViewModel
+                                {
+                                    Family = f.Family,
+                                    Genera = f.Genera
+                                        .Select(g => new GenusGroupViewModel
+                                        {
+                                            Genus = g.Genus,
+                                            Species = g.Species.Where(b => b.Countries.Contains(country)).ToList()
+                                        }).Where(g => g.Species.Any()).ToList()
+                                }).Where(f => f.Genera.Any()).ToList()
+                }).Where(o => o.Families.Any()).ToList();
+    }
+
+    public static IEnumerable<(string Species, int PicturesCount)> GetTop10SpeciesWithMostPictures(IEnumerable<OrderGroupViewModel> orders)
+    {
+        return orders
+            .SelectMany(o => o.Families)
+            .SelectMany(f => f.Genera)
+            .SelectMany(g => g.Species)
+            .GroupBy(b => $"{b.Name} ({b.Species})")
+            .Select(g => (Species: $"{g.Key}", PicturesCount: g.Sum(b => b.PicturesCount)))
+            .OrderByDescending(s => s.PicturesCount)
+            .Take(10);
+    }
+
+    public static IEnumerable<(string Genus, int SpeciesCount)> GetTop10GeneraWithMostSpecies(IEnumerable<OrderGroupViewModel> orders)
+    {
+        return orders
+            .SelectMany(o => o.Families)
+            .SelectMany(f => f.Genera)
+            .Select(g => new
+            {
+                g.Genus,
+                Species = g.Species.Select(b => b.Species).Distinct()
+            })
+            .GroupBy(g => g.Genus)
+            .Select(g => (Genus: g.Key, SpeciesCount: g.SelectMany(x => x.Species).Distinct().Count()))
+            .OrderByDescending(g => g.SpeciesCount)
+            .Take(10);
+    }
+
+    public static IEnumerable<(string Family, int SpeciesCount)> GetTop10FamiliesWithMostSpecies(IEnumerable<OrderGroupViewModel> orders)
+    {
+        return orders
+            .SelectMany(o => o.Families)
+            .Select(f => new
+            {
+                f.Family,
+                Species = f.Genera.SelectMany(g => g.Species).Select(b => b.Species).Distinct()
+            })
+            .GroupBy(f => f.Family)
+            .Select(g => (Family: g.Key, SpeciesCount: g.SelectMany(x => x.Species).Distinct().Count()))
+            .OrderByDescending(f => f.SpeciesCount)
+            .Take(10);
+    }
+
+    public static IEnumerable<(Country Country, int SpeciesCount)> GetSpeciesCountByCountry(IEnumerable<OrderGroupViewModel> orders)
+    {
+        return orders
+            .SelectMany(o => o.Families)
+            .SelectMany(f => f.Genera)
+            .SelectMany(g => g.Species)
+            .Select(b => new { b.Species, b.Countries })
+            .DistinctBy(x => x.Species)
+            .SelectMany(x => x.Countries.Distinct(), (x, country) => new { x.Species, Country = country })
+            .GroupBy(x => x.Country)
+            .Select(g => (Country: g.Key, SpeciesCount: g.Select(x => x.Species).Distinct().Count()))
+            .OrderByDescending(x => x.SpeciesCount);
+    }
+
+    public static string GetFlagPath(Country country)
+    {
+        var isoCode = country switch
+        {
+            Country.Spain => "es",
+            Country.Netherlands => "nl",
+            Country.Vietnam => "vn",
+            Country.Thailand => "th",
+            Country.DominicanRepublic => "do",
+            Country.Mexico => "mx",
+            Country.Kenya => "ke",
+            Country.Philippines => "ph",
+            Country.SriLanka => "lk",
+            Country.Singapore => "sg",
+            Country.Indonesia => "id",
+            Country.France => "fr",
+            Country.Germany => "de",
+            Country.CzechRepublic => "cz",
+            Country.Belgium => "be",
+            _ => throw new NotImplementedException($"{country} is not supported")
+        };
+
+        return $"img/flags/{isoCode}.svg";
+    }
+}
