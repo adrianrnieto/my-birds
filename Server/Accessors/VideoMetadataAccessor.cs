@@ -9,11 +9,6 @@ public static class VideoMetadataAccessor
 
     public static DateTime? GetVideoCreatedDate(string videoPath)
     {
-        if(videoPath.Contains("Buitre leonado"))
-        {
-            var x = 0;
-        }
-
         var videoName = videoPath.Split("\\").Last();
         var match = FileDateRegex.Match(videoName);
 
