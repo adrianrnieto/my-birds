@@ -26,10 +26,9 @@ else
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
+app.MapStaticAssets();
 
 app.UseRouting();
-
 
 app.MapRazorPages();
 app.MapControllers();
