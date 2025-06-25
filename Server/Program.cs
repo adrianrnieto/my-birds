@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IBirdsService, BirdsService>();
+builder.Services.ConfigureDbContext(builder.Configuration);
 
 var app = builder.Build();
 
@@ -33,5 +34,7 @@ app.UseRouting();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+app.UseEntityFrameworkMigrations();
 
 app.Run();

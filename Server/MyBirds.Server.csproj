@@ -10,12 +10,22 @@
 		<PackageReference Include="MetadataExtractor" Version="2.8.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.6" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Client\MyBirds.Client.csproj" />
+		<ProjectReference Include="..\MyBirds.Migrations\MyBirds.Migrations.csproj" />
 		<ProjectReference Include="..\Shared\MyBirds.Shared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Extensions\" />
 	</ItemGroup>
 
 
