@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MyBirds.Infrastructure.Database.Contexts;
 
-namespace Microsoft.AspNetCore.Builder;
+namespace Microsoft.Extensions.DependencyInjection;
 
-public static class EntityFrameworkWebApplicationExtensions
+public static class EntityFrameworkServiceCollectionExtensions
 {
     public static IServiceCollection ConfigureDbContext(this IServiceCollection services, IConfiguration configuration)
     {
@@ -15,12 +13,5 @@ public static class EntityFrameworkWebApplicationExtensions
             options.UseSqlServer(configuration["Database:ConnectionString"], x => x.MigrationsAssembly("MyBirds.Migrations"));
             //options.LogTo(Console.WriteLine);
         });
-    }
-
-    public static void UseEntityFrameworkMigrations(this IHost app)
-    {
-        using var scope = app.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        db.Database.Migrate();
     }
 }
