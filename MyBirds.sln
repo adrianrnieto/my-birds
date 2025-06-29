@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 16.0.0.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBirds.Server", "Server\MyBirds.Server.csproj", "{EFC9805A-AA71-46BC-975A-ED24C77B018D}"
 EndProject
@@ -11,6 +11,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBirds.Migrations", "MyBirds.Migrations\MyBirds.Migrations.csproj", "{AA41A52C-6A02-4B9B-9DF9-9572A58080CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBirds.Infrastructure", "MyBirds.Infrastructure\MyBirds.Infrastructure.csproj", "{DDF33DBC-DB8E-4FBC-A4DF-8D2E92BD8AD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layers", "Layers", "{B339E70D-4514-4AB2-82B9-737EBA934B3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBirds.Domain", "MyBirds.Domain\MyBirds.Domain.csproj", "{EC0C194E-B02A-4D46-A0BC-3A0572318B57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBirds.Application", "MyBirds.Application\MyBirds.Application.csproj", "{45D6469A-F3E8-4DE6-8700-9A793ACD1866}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,9 +88,38 @@ Global
 		{DDF33DBC-DB8E-4FBC-A4DF-8D2E92BD8AD7}.Release|x64.Build.0 = Release|Any CPU
 		{DDF33DBC-DB8E-4FBC-A4DF-8D2E92BD8AD7}.Release|x86.ActiveCfg = Release|Any CPU
 		{DDF33DBC-DB8E-4FBC-A4DF-8D2E92BD8AD7}.Release|x86.Build.0 = Release|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Debug|x64.Build.0 = Debug|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Release|x64.Build.0 = Release|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57}.Release|x86.Build.0 = Release|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Debug|x64.Build.0 = Debug|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Debug|x86.Build.0 = Debug|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Release|x64.ActiveCfg = Release|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Release|x64.Build.0 = Release|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Release|x86.ActiveCfg = Release|Any CPU
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DDF33DBC-DB8E-4FBC-A4DF-8D2E92BD8AD7} = {B339E70D-4514-4AB2-82B9-737EBA934B3E}
+		{EC0C194E-B02A-4D46-A0BC-3A0572318B57} = {B339E70D-4514-4AB2-82B9-737EBA934B3E}
+		{45D6469A-F3E8-4DE6-8700-9A793ACD1866} = {B339E70D-4514-4AB2-82B9-737EBA934B3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A084614A-AE09-4922-86C3-3A1DD5E2CB36}

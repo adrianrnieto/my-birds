@@ -9,6 +9,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IBirdsService, BirdsService>();
 builder.Services.ConfigureDbContext(builder.Configuration);
+builder.Services.ConfigureRepositories();
+builder.Services.ConfigureServices();
+builder.Services.ConfigureHostedServices();
 
 var app = builder.Build();
 

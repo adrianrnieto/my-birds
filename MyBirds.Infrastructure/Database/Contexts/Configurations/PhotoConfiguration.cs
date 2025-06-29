@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyBirds.Infrastructure.Database.Entities;
+using MyBirds.Domain.Birds;
 
 namespace MyBirds.Infrastructure.Database.Contexts.Configurations;
 
@@ -16,7 +16,10 @@ internal partial class PhotoConfiguration : IEntityTypeConfiguration<Photo>
 
         entity.Property(e => e.Name)
             .IsRequired()
-            .HasMaxLength(64);
+            .HasMaxLength(128);
+
+        entity.HasIndex(e => e.Name)
+            .HasDatabaseName("IX_Photo_Name");
 
         entity.HasOne(e => e.Species)
             .WithMany(e => e.Photos)

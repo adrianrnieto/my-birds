@@ -4,7 +4,7 @@ using MyBirds.Infrastructure.Database.Contexts;
 
 namespace Microsoft.Extensions.Hosting;
 
-public static class EntityFrameworkHostExtensions
+public static class HostExtensions
 {
     public static void UseEntityFrameworkMigrations(this IHost app)
     {

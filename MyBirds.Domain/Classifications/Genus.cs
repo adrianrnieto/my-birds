@@ -1,8 +1,9 @@
-﻿using MyBirds.Infrastructure.Database.Abstract;
+﻿using MyBirds.Domain.Birds;
+using MyBirds.Domain.Shared;
 
-namespace MyBirds.Infrastructure.Database.Entities;
+namespace MyBirds.Domain.Classifications;
 
-internal partial class Genus : Entity
+public partial class Genus : Entity
 {
     public required string Name { get; set; }
     public required int FamilyId { get; set; }

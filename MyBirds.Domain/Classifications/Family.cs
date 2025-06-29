@@ -1,8 +1,8 @@
-﻿using MyBirds.Infrastructure.Database.Abstract;
+﻿using MyBirds.Domain.Shared;
 
-namespace MyBirds.Infrastructure.Database.Entities;
+namespace MyBirds.Domain.Classifications;
 
-internal partial class Family : Entity
+public partial class Family : Entity
 {
     public required string Name { get; set; }
     public required int OrderId { get; set; }

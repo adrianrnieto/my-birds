@@ -1,8 +1,9 @@
-﻿using MyBirds.Infrastructure.Database.Abstract;
+﻿using MyBirds.Domain.Classifications;
+using MyBirds.Domain.Shared;
 
-namespace MyBirds.Infrastructure.Database.Entities;
+namespace MyBirds.Domain.Birds;
 
-internal partial class Species : Entity
+public partial class Species : Entity
 {
     public required string Name { get; set; }
     public required string ScientificName { get; set; }
