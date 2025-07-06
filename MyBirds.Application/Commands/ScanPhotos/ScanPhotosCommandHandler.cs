@@ -24,7 +24,7 @@ internal class ScanPhotosCommandHandler(
             var newPhotos = await _photoRepository.GetMissingPhotosAsync(batch, cancellationToken);
             if (newPhotos is not null)
             {
-                var registerPhotosAndTaxonomyCommand = new RegisterPhotosAndTaxonomyCommand { PhotoPaths = newPhotos };
+                var registerPhotosAndTaxonomyCommand = new RegisterPhotosAndTaxonomyCommand { PhotoPaths = newPhotos, BasePath = command.FolderPath };
                 await _registerPhotosAndTaxonomyCommandHandler.HandleAsync(registerPhotosAndTaxonomyCommand, cancellationToken);
             }
         }

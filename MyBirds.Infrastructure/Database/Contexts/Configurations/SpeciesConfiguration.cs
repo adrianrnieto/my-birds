@@ -18,9 +18,17 @@ internal partial class SpeciesConfiguration : IEntityTypeConfiguration<Species>
             .IsRequired()
             .HasMaxLength(64);
 
+        entity.HasIndex(e => e.Name)
+            .IsUnique()
+            .HasDatabaseName("IX_Species_Name");
+
         entity.Property(e => e.ScientificName)
             .IsRequired()
             .HasMaxLength(128);
+
+        entity.HasIndex(e => e.ScientificName)
+            .IsUnique()
+            .HasDatabaseName("IX_Species_ScientificName");
 
         entity.HasOne(e => e.Genus)
             .WithMany(e => e.Species)

@@ -18,6 +18,10 @@ internal partial class GenusConfiguration : IEntityTypeConfiguration<Genus>
             .IsRequired()
             .HasMaxLength(64);
 
+        entity.HasIndex(e => e.Name)
+            .IsUnique()
+            .HasDatabaseName("IX_Genus_Name");
+
         entity.HasOne(e => e.Family)
             .WithMany(e => e.Genera)
             .HasForeignKey(f => f.FamilyId)

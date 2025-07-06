@@ -17,6 +17,10 @@ internal partial class OrderConfiguration : IEntityTypeConfiguration<Order>
             .IsRequired()
             .HasMaxLength(64);
 
+        entity.HasIndex(e => e.Name)
+            .IsUnique()
+            .HasDatabaseName("IX_Order_Name");
+
         OnConfigurePartial(entity);
     }
 

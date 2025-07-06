@@ -2,8 +2,7 @@
 
 namespace MyBirds.Domain.Classifications;
 
-public partial class Order : Entity
+public partial class Order : NamedEntity
 {
-    public required string Name { get; set; }
     public virtual ICollection<Family> Families { get; set; } = [];
 }

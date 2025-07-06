@@ -9,12 +9,13 @@ internal class PhotoRepository(AppDbContext appDbContext) : BaseRepository(appDb
 {
     public async Task<IEnumerable<string>> GetMissingPhotosAsync(IEnumerable<string> names, CancellationToken cancellationToken)
     {
-        var existingPaths = await _appDbContext.Photos
+        return await _appDbContext.Photos.GetMissingByNamesAsync(names, cancellationToken);
+        /*var existingPaths = await _appDbContext.Photos
             .Where(p => names.Contains(p.Name))
             .Select(p => p.Name)
             .ToListAsync(cancellationToken);
 
-        return names.Except(existingPaths);
+        return names.Except(existingPaths);*/
     }
 
     public async Task AddAsync(IEnumerable<Photo> photos, CancellationToken cancellationToken)

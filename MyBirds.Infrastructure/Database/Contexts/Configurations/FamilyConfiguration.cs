@@ -17,6 +17,10 @@ internal partial class FamilyConfiguration : IEntityTypeConfiguration<Family>
             .IsRequired()
             .HasMaxLength(64);
 
+        entity.HasIndex(e => e.Name)
+            .IsUnique()
+            .HasDatabaseName("IX_Family_Name");
+
         entity.HasOne(e => e.Order)
             .WithMany(e => e.Families)
             .HasForeignKey(f => f.OrderId)

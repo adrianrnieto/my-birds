@@ -12,6 +12,7 @@ builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureServices();
 builder.Services.ConfigureHostedServices();
+builder.Services.ConfigureApplicationHandlers();
 
 var app = builder.Build();
 

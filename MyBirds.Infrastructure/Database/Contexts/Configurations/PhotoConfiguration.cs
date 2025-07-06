@@ -19,6 +19,7 @@ internal partial class PhotoConfiguration : IEntityTypeConfiguration<Photo>
             .HasMaxLength(128);
 
         entity.HasIndex(e => e.Name)
+            .IsUnique()
             .HasDatabaseName("IX_Photo_Name");
 
         entity.HasOne(e => e.Species)

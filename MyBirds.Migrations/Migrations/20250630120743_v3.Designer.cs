@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyBirds.Infrastructure.Database.Contexts;
 
@@ -10,9 +11,11 @@ using MyBirds.Infrastructure.Database.Contexts;
 namespace MyBirds.Migrations.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250630120743_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,7 +47,6 @@ namespace MyBirds.Migrations.Migrations
                         .HasName("PK_Photo");
 
                     b.HasIndex("Name")
-                        .IsUnique()
                         .HasDatabaseName("IX_Photo_Name");
 
                     b.HasIndex("SpeciesId");
@@ -78,14 +80,6 @@ namespace MyBirds.Migrations.Migrations
 
                     b.HasIndex("GenusId");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Species_Name");
-
-                    b.HasIndex("ScientificName")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Species_ScientificName");
-
                     b.ToTable("Species");
                 });
 
@@ -107,10 +101,6 @@ namespace MyBirds.Migrations.Migrations
 
                     b.HasKey("Id")
                         .HasName("PK_Family");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Family_Name");
 
                     b.HasIndex("OrderId");
 
@@ -138,10 +128,6 @@ namespace MyBirds.Migrations.Migrations
 
                     b.HasIndex("FamilyId");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Genus_Name");
-
                     b.ToTable("Genera");
                 });
 
@@ -160,10 +146,6 @@ namespace MyBirds.Migrations.Migrations
 
                     b.HasKey("Id")
                         .HasName("PK_Order");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("IX_Order_Name");
 
                     b.ToTable("Orders");
                 });

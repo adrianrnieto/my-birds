@@ -2,8 +2,11 @@
 using Microsoft.Extensions.Configuration;
 using MyBirds.Application.Services;
 using MyBirds.Domain.Birds;
+using MyBirds.Domain.Classifications;
 using MyBirds.Infrastructure.Database.Contexts;
 using MyBirds.Infrastructure.Database.Repositories;
+using MyBirds.Infrastructure.Database.Repositories.Read;
+using MyBirds.Infrastructure.Database.Repositories.Write;
 using MyBirds.Infrastructure.FileSystem;
 using MyBirds.Infrastructure.HostedServices;
 
@@ -23,7 +26,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection ConfigureRepositories(this IServiceCollection services)
     {
         return services
-            .AddScoped<IPhotoRepository, PhotoRepository>();
+            .AddScoped<IPhotoRepository, PhotoRepository>()
+            .ConfigureReadRepositories()
+            .ConfigureWriteRepositories();
     }
 
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
@@ -36,5 +41,22 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddHostedService<PhotoScannerHostedService>();
+    }
+
+    public static IServiceCollection ConfigureReadRepositories(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<IOrderReadRepository, OrderReadRepository>()
+            .AddScoped<IFamilyReadRepository, FamilyReadRepository>()
+            .AddScoped<IGenusReadRepository, GenusReadRepository>()
+            .AddScoped<IPhotoReadRepository, PhotoReadRepository>();
+    }
+
+    public static IServiceCollection ConfigureWriteRepositories(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<IOrderWriteRepository, OrderWriteRepository>()
+            .AddScoped<IFamilyWriteRepository, FamilyWriteRepository>()
+            .AddScoped<IGenusWriteRepository, GenusWriteRepository>();
     }
 }
