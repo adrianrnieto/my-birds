@@ -24,9 +24,5 @@
 		<ProjectReference Include="..\Shared\MyBirds.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Extensions\" />
-	</ItemGroup>
-
 
 </Project>

@@ -10,11 +10,21 @@ internal class GenusReadRepository(AppDbContext appDbContext) : IGenusReadReposi
 
     public async Task<IEnumerable<Genus>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _appDbContext.Genera.AsNoTracking().ToListAsync(cancellationToken);
+        return await _appDbContext.Genera
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<string>> GetMissingGeneraAsync(IEnumerable<string> names, CancellationToken cancellationToken)
     {
         return await _appDbContext.Genera.GetMissingByNamesAsync(names, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Genus>> GetByNamesAsync(IEnumerable<string> names, CancellationToken cancellationToken)
+    {
+        return await _appDbContext.Genera
+            .AsNoTracking()
+            .Where(f => names.Contains(f.Name))
+            .ToListAsync(cancellationToken);
     }
 }

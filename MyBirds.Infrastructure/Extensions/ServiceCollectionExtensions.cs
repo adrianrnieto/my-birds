@@ -49,6 +49,7 @@ public static class ServiceCollectionExtensions
             .AddScoped<IOrderReadRepository, OrderReadRepository>()
             .AddScoped<IFamilyReadRepository, FamilyReadRepository>()
             .AddScoped<IGenusReadRepository, GenusReadRepository>()
+            .AddScoped<ISpeciesReadRepository, SpeciesReadRepository>()
             .AddScoped<IPhotoReadRepository, PhotoReadRepository>();
     }
 
@@ -57,6 +58,8 @@ public static class ServiceCollectionExtensions
         return services
             .AddScoped<IOrderWriteRepository, OrderWriteRepository>()
             .AddScoped<IFamilyWriteRepository, FamilyWriteRepository>()
-            .AddScoped<IGenusWriteRepository, GenusWriteRepository>();
+            .AddScoped<IGenusWriteRepository, GenusWriteRepository>()
+            .AddScoped<ISpeciesWriteRepository, SpeciesWriteRepository>()
+            .AddScoped<IPhotoWriteRepository, PhotoWriteRepository>();
     }
 }

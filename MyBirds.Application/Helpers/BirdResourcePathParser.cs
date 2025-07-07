@@ -9,6 +9,9 @@ internal static class BirdResourcePathParser
         var relativePaths = absolutePaths.Select(path => path.Replace(basePath + Path.DirectorySeparatorChar, string.Empty));
         var splitRelativePaths = relativePaths.Select(relativePath => relativePath.Split(Path.DirectorySeparatorChar));
 
+        // TODO: Improve filter
+        splitRelativePaths = splitRelativePaths.Where(splitPath => splitPath.Length == 4 && splitPath[2].Contains(" - "));
+
         return splitRelativePaths.Select(Parse);
     }
 

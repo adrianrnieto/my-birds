@@ -8,6 +8,7 @@ public static class DbSetExtensions
         where TEntity : NamedEntity
     {
         var existingPaths = await dbSet
+            .AsNoTracking()
             .Where(p => names.Contains(p.Name))
             .Select(p => p.Name)
             .ToListAsync(cancellationToken);
