@@ -9,6 +9,7 @@ internal static class BirdResourcePathParser
         var relativePaths = absolutePaths.Select(path => path.Replace(basePath + Path.DirectorySeparatorChar, string.Empty));
         var splitRelativePaths = relativePaths.Select(relativePath => relativePath.Split(Path.DirectorySeparatorChar));
 
+        // TODO: Persist invalid images
         // TODO: Improve filter
         splitRelativePaths = splitRelativePaths.Where(splitPath => splitPath.Length == 4 && splitPath[2].Contains(" - "));
 
