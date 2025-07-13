@@ -22,6 +22,7 @@
 		<ProjectReference Include="..\Client\MyBirds.Client.csproj" />
 		<ProjectReference Include="..\MyBirds.Migrations\MyBirds.Migrations.csproj" />
 		<ProjectReference Include="..\Shared\MyBirds.Shared.csproj" />
+		<ProjectReference Include="..\src\MyBirds.ServiceDefaults\MyBirds.ServiceDefaults.csproj" />
 	</ItemGroup>
 
 
