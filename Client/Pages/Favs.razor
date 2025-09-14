@@ -1,0 +1,36 @@
+﻿@page "/favs"
+@using MyBirds.Shared.ViewModels
+@inject HttpClient Http
+
+<PageTitle>Favorites</PageTitle>
+
+@if (_favouritesViewModel is not null)
+{
+    <h1>Favorites</h1>
+    <table>
+        @for (int row = 0; row < _favouritesViewModel.Count() / _columns; row++)
+        {
+            <tr>
+                @foreach (var fav in _favouritesViewModel.Skip(_columns * row).Take(_columns))
+                {
+                    <td>
+                        <NavLink href="@($"/species/{fav.SpeciesId}")">
+                            <img src="@($"/photos/{fav.PhotoUrl}")" width="360" height="360" style="border-radius: 8px; object-fit: cover; object-position: center;" />
+                        </NavLink>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    private const int _columns = 6;
+
+    private IEnumerable<FavouritesViewModel>? _favouritesViewModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _favouritesViewModel = await Http.GetFromJsonAsync<IEnumerable<FavouritesViewModel>>("favourites");
+    }
+}

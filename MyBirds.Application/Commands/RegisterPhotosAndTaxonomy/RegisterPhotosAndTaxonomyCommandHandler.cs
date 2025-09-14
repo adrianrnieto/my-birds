@@ -136,6 +136,7 @@ internal class RegisterPhotosAndTaxonomyCommandHandler(
         var photos = birdResourcePathDtos.Select(dto =>
             new Photo
             {
+                FullPath = $"{dto.OrderName}/{dto.FamilyName}/{dto.SpeciesScientificName} - {dto.SpeciesName}/{dto.ResourceName}",
                 Name = dto.ResourceName,
                 SpeciesId = species.Single(s => s.Name == dto.SpeciesName).Id
             });

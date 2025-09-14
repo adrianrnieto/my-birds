@@ -8,7 +8,8 @@ namespace MyBirds.Application.Commands.ScanPhotos;
 internal class ScanPhotosCommandHandler(
     IFileSystemScanner fileSystemScanner,
     IPhotoRepository photoRepository,
-    IAsyncCommandHandler<RegisterPhotosAndTaxonomyCommand> registerPhotosAndTaxonomyCommandHandler) : IAsyncCommandHandler<ScanPhotosCommand>
+    IAsyncCommandHandler<RegisterPhotosAndTaxonomyCommand> registerPhotosAndTaxonomyCommandHandler)
+    : IAsyncCommandHandler<ScanPhotosCommand>
 {
     private const int _batchSize = 500;
 

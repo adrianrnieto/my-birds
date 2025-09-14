@@ -1,0 +1,9 @@
+﻿.bird {
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.selected {
+    border: 8px solid #b200ff;
+}

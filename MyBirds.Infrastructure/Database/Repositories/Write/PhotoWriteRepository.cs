@@ -7,11 +7,15 @@ namespace MyBirds.Infrastructure.Database.Repositories.Write;
 internal class PhotoWriteRepository(AppDbContext appDbContext)
     : IPhotoWriteRepository
 {
-    private readonly AppDbContext _appDbContext = appDbContext;
-
     public async Task AddAsync(IEnumerable<Photo> photos, CancellationToken cancellationToken)
     {
-        await _appDbContext.Photos.AddRangeAsync(photos, cancellationToken);
-        await _appDbContext.SaveChangesAsync(cancellationToken);
+        await appDbContext.Photos.AddRangeAsync(photos, cancellationToken);
+        await appDbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateAsync(IEnumerable<Photo> photos, CancellationToken cancellationToken)
+    {
+        appDbContext.Photos.UpdateRange(photos);
+        await appDbContext.SaveChangesAsync(cancellationToken);
     }
 }

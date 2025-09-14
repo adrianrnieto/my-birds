@@ -17,6 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Components\" />
 	  <Folder Include="wwwroot\img\flags\" />
 	</ItemGroup>
 

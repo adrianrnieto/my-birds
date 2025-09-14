@@ -18,4 +18,9 @@ internal class SpeciesReadRepository(AppDbContext appDbContext) : ISpeciesReadRe
     {
         return await _appDbContext.Species.GetMissingByNamesAsync(names, cancellationToken);
     }
+
+    public async Task<IEnumerable<Species>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await _appDbContext.Species.AsNoTracking().ToListAsync(cancellationToken);
+    }
 }

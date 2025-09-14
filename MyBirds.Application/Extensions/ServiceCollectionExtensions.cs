@@ -1,6 +1,9 @@
 ﻿using MyBirds.Application.Abstract;
+using MyBirds.Application.Commands.AddFavouritePhoto;
 using MyBirds.Application.Commands.RegisterPhotosAndTaxonomy;
 using MyBirds.Application.Commands.ScanPhotos;
+using MyBirds.Application.Queries.GetFavourites;
+using MyBirds.Application.Queries.GetPhotosBySpecies;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -15,13 +18,16 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection ConfigureQueryHandlers(this IServiceCollection services)
     {
-        return services;
+        return services
+            .AddScoped<IAsyncQueryHandler<GetFavouritesQueryResult>, GetFavouritesQueryHandler>()
+            .AddScoped<IAsyncQueryHandler<GetPhotosBySpeciesQuery, GetPhotosBySpeciesQueryResult>, GetPhotosBySpeciesQueryHandler>();
     }
 
     private static IServiceCollection ConfigureCommandHandlers(this IServiceCollection services)
     {
         return services
             .AddScoped<IAsyncCommandHandler<ScanPhotosCommand>, ScanPhotosCommandHandler>()
-            .AddScoped<IAsyncCommandHandler<RegisterPhotosAndTaxonomyCommand>, RegisterPhotosAndTaxonomyCommandHandler>();
+            .AddScoped<IAsyncCommandHandler<RegisterPhotosAndTaxonomyCommand>, RegisterPhotosAndTaxonomyCommandHandler>()
+            .AddScoped<IAsyncCommandHandler<AddFavouritePhotoCommand>, AddFavouritePhotoCommandHandler>();
     }
 }

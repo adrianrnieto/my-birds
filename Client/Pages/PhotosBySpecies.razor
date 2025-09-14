@@ -1,0 +1,45 @@
+﻿@page "/species/{SpeciesId:int}"
+@using MyBirds.Shared.ViewModels
+@inject HttpClient Http
+
+<PageTitle>Choose your favourite photo</PageTitle>
+<h1>Choose your favourite photo</h1>
+
+@if (_allPhotosBySpeciesViewModel is null)
+{
+    <p>Cargando...</p>
+}
+else {
+    <table>
+        @for (int row = 0; row < (_allPhotosBySpeciesViewModel.Count() / _columns) + 1; row++)
+        {
+            <tr>
+                @foreach (var photo in _allPhotosBySpeciesViewModel.Skip(_columns * row).Take(_columns))
+                {
+                    <td>
+                        <img src="@($"/photos/{photo.PhotoUrl}")" width="360" height="360" class="bird @(photo.IsFavourite ? "selected" : string.Empty)" @onclick="() => SelectFavourite(photo)" />
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+}
+
+@code {
+    [Parameter] public int SpeciesId { get; set; }
+
+    private const int _columns = 6;
+
+    private IEnumerable<AllPhotosBySpeciesViewModel>? _allPhotosBySpeciesViewModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _allPhotosBySpeciesViewModel = await Http.GetFromJsonAsync<IEnumerable<AllPhotosBySpeciesViewModel>>($"photos?speciesId={SpeciesId}");
+    }
+
+    private async Task SelectFavourite(AllPhotosBySpeciesViewModel viewModel)
+    {
+        var request = new { PhotoId = viewModel.PhotoId };
+        await Http.PostAsJsonAsync("favourites", request);
+    }
+}
