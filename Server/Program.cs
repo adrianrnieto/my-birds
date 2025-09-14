@@ -1,3 +1,4 @@
+using MyBirds.Domain.Shared;
 using MyBirds.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.ConfigureRepositories();
 builder.Services.ConfigureServices();
 builder.Services.ConfigureHostedServices();
 builder.Services.ConfigureApplicationHandlers();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(IDomainEvent).Assembly));
 
 var app = builder.Build();
 

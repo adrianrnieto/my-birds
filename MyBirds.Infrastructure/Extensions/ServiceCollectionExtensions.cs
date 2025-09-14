@@ -1,14 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Confluent.Kafka;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MyBirds.Application.Services;
 using MyBirds.Domain.Birds;
 using MyBirds.Domain.Classifications;
+using MyBirds.Domain.Shared;
 using MyBirds.Infrastructure.Database.Contexts;
 using MyBirds.Infrastructure.Database.Repositories;
 using MyBirds.Infrastructure.Database.Repositories.Read;
 using MyBirds.Infrastructure.Database.Repositories.Write;
+using MyBirds.Infrastructure.Events.Publishers;
 using MyBirds.Infrastructure.FileSystem;
 using MyBirds.Infrastructure.HostedServices;
+using MyBirds.Infrastructure.Messaging;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -41,6 +45,30 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddHostedService<PhotoScannerHostedService>();
+    }
+
+    public static IServiceCollection ConfigureMessageBrokers(this IServiceCollection services)
+    {
+        services.AddSingleton<IProducer<string, string>>(sp =>
+        {
+            // TODO: Use configuration to set up Kafka producer options
+            var config = new ProducerConfig
+            {
+                BootstrapServers = "localhost:9092"
+            };
+            return new ProducerBuilder<string, string>(config).Build();
+        });
+
+        // TODO: Use configuration to set up Kafka producer options
+        services.AddSingleton<IEventPublisher<PhotoCreatedEvent>>(sp =>
+        {
+            var producer = sp.GetRequiredService<IProducer<string, string>>();
+            return new KafkaEventPublisher<PhotoCreatedEvent>(producer, "photo-created");
+        });
+
+        services.AddSingleton<IDomainEventPublisher<IDomainEvent>, DomainEventPublisher<IDomainEvent>>();
+
+        return services;
     }
 
     public static IServiceCollection ConfigureReadRepositories(this IServiceCollection services)
