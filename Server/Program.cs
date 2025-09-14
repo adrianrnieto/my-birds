@@ -1,3 +1,4 @@
+using Microsoft.Extensions.FileProviders;
 using MyBirds.Domain.Shared;
 using MyBirds.Server.Services;
 
@@ -41,6 +42,13 @@ app.UseRouting();
 
 app.MapRazorPages();
 app.MapControllers();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(@"C:\Users\Adrian\Pictures\FX82\Birds"),
+    RequestPath = "/photos"
+});
+
 app.MapFallbackToFile("index.html");
 
 app.UseEntityFrameworkMigrations();
