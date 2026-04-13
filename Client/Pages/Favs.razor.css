@@ -1,0 +1,22 @@
+.favs-grid {
+    --favs-columns: 6;
+    display: grid;
+    grid-template-columns: repeat(var(--favs-columns), minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.favs-tile-link {
+    display: block;
+}
+
+.favs-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.favs-pagination {
+    margin-top: 1rem;
+}

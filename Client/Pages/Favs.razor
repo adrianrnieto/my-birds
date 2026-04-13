@@ -1,36 +1,65 @@
-﻿@page "/favs"
+@page "/favs"
+@using BlazorBootstrap
 @using MyBirds.Shared.ViewModels
 @inject HttpClient Http
 
 <PageTitle>Favorites</PageTitle>
 
-@if (_favouritesViewModel is not null)
+<h1>Favorites</h1>
+
+@if (_favourites.Count == 0)
 {
-    <h1>Favorites</h1>
-    <table>
-        @for (int row = 0; row < _favouritesViewModel.Count() / _columns; row++)
+    <p>No favorite photos yet.</p>
+}
+else
+{
+    <div class="favs-grid" style="@($"--favs-columns: {Columns};")">
+        @foreach (var fav in CurrentPageItems)
         {
-            <tr>
-                @foreach (var fav in _favouritesViewModel.Skip(_columns * row).Take(_columns))
-                {
-                    <td>
-                        <NavLink href="@($"/species/{fav.SpeciesId}")">
-                            <img src="@($"/photos/{fav.PhotoUrl}")" width="360" height="360" style="border-radius: 8px; object-fit: cover; object-position: center;" />
-                        </NavLink>
-                    </td>
-                }
-            </tr>
+            <NavLink href="@($"/species/{fav.SpeciesId}")" class="favs-tile-link">
+                <img class="favs-image" src="@($"/photos/{fav.PhotoUrl}")" alt="@fav.SpeciesName" />
+            </NavLink>
         }
-    </table>
+    </div>
+
+    @if (TotalPages > 1)
+    {
+        <div class="favs-pagination">
+            <Pagination ActivePageNumber="@_currentPage"
+                        TotalPages="@TotalPages"
+                        DisplayPages="7"
+                        Alignment="Alignment.Center"
+                        PreviousLinkText="Prev"
+                        NextLinkText="Next"
+                        PageChanged="OnPageChangedAsync" />
+        </div>
+    }
 }
 
 @code {
-    private const int _columns = 6;
+    private const int PageSize = 18;
+    private const int Columns = 6;
 
-    private IEnumerable<FavouritesViewModel>? _favouritesViewModel;
+    private List<FavouritesViewModel> _favourites = [];
+    private int _currentPage = 1;
+
+    private int TotalPages => (int)Math.Ceiling(_favourites.Count / (double)PageSize);
+
+    private IEnumerable<FavouritesViewModel> CurrentPageItems =>
+        _favourites
+            .Skip((_currentPage - 1) * PageSize)
+            .Take(PageSize);
 
     protected override async Task OnInitializedAsync()
     {
-        _favouritesViewModel = await Http.GetFromJsonAsync<IEnumerable<FavouritesViewModel>>("favourites");
+        var response = await Http.GetFromJsonAsync<IEnumerable<FavouritesViewModel>>("favourites");
+        _favourites = response?.ToList() ?? [];
+    }
+
+    private Task OnPageChangedAsync(int newPageNumber)
+    {
+        var normalizedPageNumber = Math.Clamp(newPageNumber, 1, Math.Max(1, TotalPages));
+        _currentPage = normalizedPageNumber;
+        return Task.CompletedTask;
     }
 }
