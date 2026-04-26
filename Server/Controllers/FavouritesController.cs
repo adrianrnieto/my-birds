@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using MyBirds.Application.Abstract;
 using MyBirds.Application.Commands.AddFavouritePhoto;
 using MyBirds.Application.Queries.GetFavourites;
 using MyBirds.Server.Requests;
+using MyBirds.Server.Services;
 using MyBirds.Shared.ViewModels;
 
 namespace MyBirds.Server.Controllers;
@@ -11,7 +12,8 @@ namespace MyBirds.Server.Controllers;
 [Route("[controller]")]
 public class FavouritesController(
     IAsyncQueryHandler<GetFavouritesQueryResult> getFavouritesQueryHandler,
-    IAsyncCommandHandler<AddFavouritePhotoCommand> addFavouritePhotoCommandHandler)
+    IAsyncCommandHandler<AddFavouritePhotoCommand> addFavouritePhotoCommandHandler,
+    IThumbnailService thumbnailService)
     : ControllerBase
 {
     [HttpGet]
@@ -23,15 +25,16 @@ public class FavouritesController(
             return Problem(favourites.Error);
         }
 
-        var random = new Random();
+        //var random = new Random();
         var viewModel = favourites.Value!.SpeciesAndPhotosData.Select(data => new FavouritesViewModel
         {
             PhotoUrl = data.Photo?.FullPath,
+            ThumbnailUrl = thumbnailService.GetThumbnailRelativePath(data.Photo?.FullPath),
             ScientificName = data.Species.ScientificName,
             SpeciesName = data.Species.Name,
             SpeciesId = data.Species.Id,
             IsStarred = data.Photo?.IsStarred ?? false
-        }).OrderBy(vm => random.Next());
+        }).OrderBy(vm => vm.ScientificName);//.OrderBy(vm => random.Next());
 
         return Ok(viewModel);
     }

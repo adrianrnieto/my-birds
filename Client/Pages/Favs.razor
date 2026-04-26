@@ -1,6 +1,7 @@
 @page "/favs"
 @using BlazorBootstrap
 @using MyBirds.Shared.ViewModels
+@using MyBirds.Client.Helpers
 @inject HttpClient Http
 
 <PageTitle>Favorites</PageTitle>
@@ -17,7 +18,13 @@ else
         @foreach (var fav in CurrentPageItems)
         {
             <NavLink href="@($"/species/{fav.SpeciesId}")" class="favs-tile-link">
-                <img class="favs-image" src="@($"/photos/{fav.PhotoUrl}")" alt="@fav.SpeciesName" />
+                <img class="favs-image"
+                     src="@PhotoLocator.GetPhotoUrl(fav.PhotoUrl, fav.ThumbnailUrl)"
+                     width="360"
+                     height="360"
+                     loading="lazy"
+                     decoding="async"
+                     alt="@fav.SpeciesName" />
             </NavLink>
         }
     </div>

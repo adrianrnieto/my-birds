@@ -1,4 +1,4 @@
-﻿namespace MyBirds.Shared.ViewModels;
+namespace MyBirds.Shared.ViewModels;
 
 public record FavouritesViewModel
 {
@@ -6,5 +6,6 @@ public record FavouritesViewModel
     public required string SpeciesName { get; set; }
     public required int SpeciesId { get; set; }
     public string? PhotoUrl { get; set; }
+    public string? ThumbnailUrl { get; set; }
     public bool IsStarred { get; set; }
 }

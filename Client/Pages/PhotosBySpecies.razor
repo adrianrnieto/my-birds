@@ -1,4 +1,5 @@
-﻿@page "/species/{SpeciesId:int}"
+@page "/species/{SpeciesId:int}"
+@using MyBirds.Client.Helpers
 @using MyBirds.Shared.ViewModels
 @inject HttpClient Http
 
@@ -17,7 +18,13 @@ else {
                 @foreach (var photo in _allPhotosBySpeciesViewModel.Skip(_columns * row).Take(_columns))
                 {
                     <td>
-                        <img src="@($"/photos/{photo.PhotoUrl}")" width="360" height="360" class="bird @(photo.IsFavourite ? "selected" : string.Empty)" @onclick="() => SelectFavourite(photo)" />
+                        <img src="@PhotoLocator.GetPhotoUrl(photo.PhotoUrl, photo.ThumbnailUrl)"
+                             width="360"
+                             height="360"
+                             loading="lazy"
+                             decoding="async"
+                             class="bird @(photo.IsFavourite ? "selected" : string.Empty)"
+                             @onclick="() => SelectFavourite(photo)" />
                     </td>
                 }
             </tr>

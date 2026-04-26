@@ -4,6 +4,7 @@ namespace MyBirds.Domain.Birds;
 
 public partial class Photo : NamedEntity
 {
+    // TODO: Review whether this should be renamed to RelativePath instead
     public required string FullPath { get; set; }
     public int? CountryId { get; set; }
     public required int SpeciesId { get; set; }

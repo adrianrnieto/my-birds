@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
+using MyBirds.Server.Options;
 using MyBirds.Server.Models;
 using MyBirds.Server.Providers;
 using Newtonsoft.Json;
@@ -13,14 +15,15 @@ public interface IBirdsService
 
 public class BirdsService : IBirdsService
 {
-    private const string _path = @"C:\Users\Adrian\Pictures\FX82\Birds";
     private const string _birdsCacheKey = "all-birds";
 
     private readonly IDistributedCache _cache;
+    private readonly string _path;
 
-    public BirdsService(IDistributedCache cache)
+    public BirdsService(IDistributedCache cache, IOptions<PhotoStorageOptions> photoStorageOptions)
     {
         _cache = cache;
+        _path = photoStorageOptions.Value.PhotoRootPath;
     }
 
     public async Task<IEnumerable<BirdSpecies>> GetAll(CancellationToken cancellationToken)
@@ -31,19 +34,19 @@ public class BirdsService : IBirdsService
             return JsonConvert.DeserializeObject<IEnumerable<BirdSpecies>>(json)!;
 
         if (!Directory.Exists(_path))
-            throw new ApplicationException("El directorio no existe.");
+            throw new DirectoryNotFoundException($"Folder {_path} does not exist.");
 
-        var birds = LoadBirds();
+        var birds = LoadBirds(_path);
         await _cache.SetStringAsync(_birdsCacheKey, JsonConvert.SerializeObject(birds), cancellationToken);
         return birds;
 
     }
 
-    private static IEnumerable<BirdSpecies> LoadBirds()
+    private static IEnumerable<BirdSpecies> LoadBirds(string rootPath)
     {
         var result = new List<BirdSpecies>();
 
-        var orders = Directory.GetDirectories(_path);
+        var orders = Directory.GetDirectories(rootPath);
         foreach (var order in orders)
         {
             var families = Directory.GetDirectories(order);
@@ -72,17 +75,17 @@ public class BirdsService : IBirdsService
             return new BirdSpecies
             {
                 Family = family.Split("\\").Last(),
-                Genus = speciesFolderName.Split(' ').First(),
+                Genus = speciesFolderName.Split(' ')[0],
                 Name = speciesFolderName.Split(" - ").Last(),
                 Order = order.Split("\\").Last(),
                 PicturesCount = picturesPath.Length,
-                Species = speciesFolderName.Split(" - ").First(),
+                Species = speciesFolderName.Split(" - ")[0],
                 Countries = countries.Distinct()
             };
         }
         catch (IndexOutOfRangeException)
         {
-            throw new ApplicationException($"Wrong naming for {spec}");
+            throw new ArgumentException($"Wrong naming for {spec}", nameof(spec));
         }
     }
 }
