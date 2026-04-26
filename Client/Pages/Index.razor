@@ -107,10 +107,10 @@
     private int _totalSpecies;
     private int _totalGenra;
     private int _totalPictures;
-    private IEnumerable<(string Species, int PicturesCount)> _top10Pictures;
-    private IEnumerable<(string Genus, int SpeciesCount)> _top10Genera;
-    private IEnumerable<(string Family, int SpeciesCount)> _top10Families;
-    private IEnumerable<(Country Country, int SpeciesCount)> _speciesPerCountry;
+    private IEnumerable<(string Species, int PicturesCount)> _top10Pictures = [];
+    private IEnumerable<(string Genus, int SpeciesCount)> _top10Genera = [];
+    private IEnumerable<(string Family, int SpeciesCount)> _top10Families = [];
+    private IEnumerable<(Country Country, int SpeciesCount)> _speciesPerCountry = [];
     private int _orderCount = 1;
 
     protected override async Task OnInitializedAsync()
