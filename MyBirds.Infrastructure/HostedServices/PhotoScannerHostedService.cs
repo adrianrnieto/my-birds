@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using MyBirds.Application.Abstract;
 using MyBirds.Application.Commands.ScanPhotos;
+using MyBirds.Application.Options;
 
 namespace MyBirds.Infrastructure.HostedServices;
 
-public class PhotoScannerHostedService(IServiceProvider serviceProvider) : BackgroundService
+public class PhotoScannerHostedService(IServiceProvider serviceProvider, IOptions<PhotoStorageOptions> options)
+    : BackgroundService
 {
-    private const string _path = @"C:\Users\Adrian\Pictures\FX82\Birds";
+    private readonly string _photoRootPath = Path.GetFullPath(options.Value.PhotoRootPath);
 
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
@@ -15,14 +18,14 @@ public class PhotoScannerHostedService(IServiceProvider serviceProvider) : Backg
     {
         // TODO: Check if enabled
 
-        if (!Directory.Exists(_path))
-            throw new ApplicationException("El directorio no existe.");
+        if (!Directory.Exists(_photoRootPath))
+            throw new DirectoryNotFoundException($"Directoy {_photoRootPath} does not exist.");
 
         while (!stoppingToken.IsCancellationRequested)
         {
             using var scope = _serviceProvider.CreateScope();
             var scanPhotosCommandHandler = scope.ServiceProvider.GetRequiredService<IAsyncCommandHandler<ScanPhotosCommand>>();
-            var scanPhotosCommand = new ScanPhotosCommand { FolderPath = _path };
+            var scanPhotosCommand = new ScanPhotosCommand { FolderPath = _photoRootPath };
             await scanPhotosCommandHandler.HandleAsync(scanPhotosCommand, stoppingToken);
 
             // TODO: Get delay from config

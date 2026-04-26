@@ -24,5 +24,7 @@ public class AddFavouritePhotoCommandHandler(IPhotoReadRepository photoReadRepos
         }
 
         await photoWriteRepository.UpdateAsync(photosToUpdate, cancellationToken);
+
+        // TODO: Generate thumbnail for the photo if it does not exist yet
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using MyBirds.Server.Options;
+using MyBirds.Application.Options;
 using MyBirds.Server.Models;
 using MyBirds.Server.Providers;
 using Newtonsoft.Json;

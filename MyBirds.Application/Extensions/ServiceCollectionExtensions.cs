@@ -4,6 +4,7 @@ using MyBirds.Application.Commands.RegisterPhotosAndTaxonomy;
 using MyBirds.Application.Commands.ScanPhotos;
 using MyBirds.Application.Queries.GetFavourites;
 using MyBirds.Application.Queries.GetPhotosBySpecies;
+using MyBirds.Application.Services.Thumbnails;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,8 @@ public static class ServiceCollectionExtensions
     {
         return services
             .ConfigureQueryHandlers()
-            .ConfigureCommandHandlers();
+            .ConfigureCommandHandlers()
+            .ConfigureApplicationServices();
     }
 
     private static IServiceCollection ConfigureQueryHandlers(this IServiceCollection services)
@@ -29,5 +31,14 @@ public static class ServiceCollectionExtensions
             .AddScoped<IAsyncCommandHandler<ScanPhotosCommand>, ScanPhotosCommandHandler>()
             .AddScoped<IAsyncCommandHandler<RegisterPhotosAndTaxonomyCommand>, RegisterPhotosAndTaxonomyCommandHandler>()
             .AddScoped<IAsyncCommandHandler<AddFavouritePhotoCommand>, AddFavouritePhotoCommandHandler>();
+    }
+
+    private static IServiceCollection ConfigureApplicationServices(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<IThumbnailBatchGenerator, ThumbnailBatchGenerator>()
+            .AddScoped<IThumbnailGenerator, ThumbnailGenerator>()
+            .AddScoped<IPhotoCollectorStrategy, OnlyFavouritesCollectorStrategy>()
+            .AddScoped<IThumbnailPathService, ThumbnailPathService>();
     }
 }

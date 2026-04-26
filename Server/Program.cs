@@ -1,9 +1,8 @@
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
+using MyBirds.Application.Options;
 using MyBirds.Domain.Shared;
-using MyBirds.Server.HostedServices;
-using MyBirds.Server.Options;
 using MyBirds.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,15 +22,12 @@ builder.Services.ConfigureServices();
 builder.Services.ConfigureHostedServices();
 builder.Services.ConfigureApplicationHandlers();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(IDomainEvent).Assembly));
-builder.Services.AddSingleton<IThumbnailService, ThumbnailService>();
-builder.Services.AddHostedService<ThumbnailBackgroundService>();
 
 var app = builder.Build();
 var photoStorageOptions = app.Services.GetRequiredService<IOptions<PhotoStorageOptions>>().Value;
-var thumbnailService = app.Services.GetRequiredService<IThumbnailService>();
 
 var photosRootPath = Path.GetFullPath(photoStorageOptions.PhotoRootPath);
-var thumbnailsRootPath = thumbnailService.ThumbnailRootPath;
+var thumbnailsRootPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, photoStorageOptions.ThumbnailOutputFolderName));
 Directory.CreateDirectory(thumbnailsRootPath);
 
 // Configure the HTTP request pipeline.

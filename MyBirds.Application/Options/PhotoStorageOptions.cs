@@ -1,4 +1,4 @@
-namespace MyBirds.Server.Options;
+namespace MyBirds.Application.Options;
 
 public class PhotoStorageOptions
 {

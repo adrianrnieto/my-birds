@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using MyBirds.Application.Abstract;
 using MyBirds.Application.Commands.AddFavouritePhoto;
 using MyBirds.Application.Queries.GetFavourites;
+using MyBirds.Application.Services.Thumbnails;
 using MyBirds.Server.Requests;
-using MyBirds.Server.Services;
 using MyBirds.Shared.ViewModels;
 
 namespace MyBirds.Server.Controllers;
@@ -13,9 +13,10 @@ namespace MyBirds.Server.Controllers;
 public class FavouritesController(
     IAsyncQueryHandler<GetFavouritesQueryResult> getFavouritesQueryHandler,
     IAsyncCommandHandler<AddFavouritePhotoCommand> addFavouritePhotoCommandHandler,
-    IThumbnailService thumbnailService)
+    IThumbnailPathService thumbnailPathService)
     : ControllerBase
 {
+
     [HttpGet]
     public async Task<IActionResult> GetAsync()
     {
@@ -29,7 +30,7 @@ public class FavouritesController(
         var viewModel = favourites.Value!.SpeciesAndPhotosData.Select(data => new FavouritesViewModel
         {
             PhotoUrl = data.Photo?.FullPath,
-            ThumbnailUrl = thumbnailService.GetThumbnailRelativePath(data.Photo?.FullPath),
+            ThumbnailUrl = thumbnailPathService.GetThumbnailRelativePath(data.Photo?.FullPath),
             ScientificName = data.Species.ScientificName,
             SpeciesName = data.Species.Name,
             SpeciesId = data.Species.Id,
@@ -47,4 +48,5 @@ public class FavouritesController(
 
         return Ok();
     }
+
 }

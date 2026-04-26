@@ -9,9 +9,9 @@ using MyBirds.Infrastructure.Database.Contexts;
 using MyBirds.Infrastructure.Database.Repositories;
 using MyBirds.Infrastructure.Database.Repositories.Read;
 using MyBirds.Infrastructure.Database.Repositories.Write;
-using MyBirds.Infrastructure.Events.Publishers;
 using MyBirds.Infrastructure.FileSystem;
 using MyBirds.Infrastructure.HostedServices;
+using MyBirds.Infrastructure.Images;
 using MyBirds.Infrastructure.Messaging;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -38,12 +38,14 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
         return services
-            .AddSingleton<IFileSystemScanner, FileSystemScanner>();
+            .AddSingleton<IFileSystemScanner, FileSystemScanner>()
+            .AddSingleton<IImageEditor, ImageEditor>();
     }
 
     public static IServiceCollection ConfigureHostedServices(this IServiceCollection services)
     {
         return services
+            .AddHostedService<ThumbnailBackgroundService>()
             .AddHostedService<PhotoScannerHostedService>();
     }
 

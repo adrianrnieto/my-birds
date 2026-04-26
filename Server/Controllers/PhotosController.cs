@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyBirds.Application.Abstract;
 using MyBirds.Application.Queries.GetPhotosBySpecies;
-using MyBirds.Server.Services;
+using MyBirds.Application.Services.Thumbnails;
 using MyBirds.Shared.ViewModels;
 
 namespace MyBirds.Server.Controllers;
@@ -10,7 +10,7 @@ namespace MyBirds.Server.Controllers;
 [Route("[controller]")]
 public class PhotosController(
     IAsyncQueryHandler<GetPhotosBySpeciesQuery, GetPhotosBySpeciesQueryResult> getPhotosBySpeciesQueryHandler,
-    IThumbnailService thumbnailService)
+    IThumbnailPathService thumbnailPathService)
     : ControllerBase
 {
     [HttpGet]
@@ -23,7 +23,7 @@ public class PhotosController(
         {
             PhotoId = p.Id,
             PhotoUrl = p.FullPath,
-            ThumbnailUrl = thumbnailService.GetThumbnailRelativePath(p.FullPath),
+            ThumbnailUrl = thumbnailPathService.GetThumbnailRelativePath(p.FullPath),
             IsStarred = p.IsStarred,
             IsFavourite = p.IsFavourite
         });
