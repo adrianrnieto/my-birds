@@ -1,11 +1,12 @@
 using FastEndpoints;
 using MyBirds.Application.Abstract;
 using MyBirds.Application.Commands.AddFavouritePhoto;
-using MyBirds.Server.Requests;
+using MyBirds.Shared.Requests;
 
 namespace MyBirds.Server.Endpoints.Favourites;
 
-public class AddFavouriteEndpoint(IAsyncCommandHandler<AddFavouritePhotoCommand> addFavouritePhotoCommandHandler) : Endpoint<AddFavouriteRequest, EmptyResponse>
+public class AddFavouriteEndpoint(IAsyncCommandHandler<AddFavouritePhotoCommand> addFavouritePhotoCommandHandler)
+    : Endpoint<AddFavouriteRequest, EmptyResponse>
 {
     public override void Configure()
     {

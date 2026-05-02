@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MyBirds.Application.Options;
+using MyBirds.Application.Services.Files;
 
 namespace MyBirds.Application.Services.Thumbnails;
 

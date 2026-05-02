@@ -1,4 +1,4 @@
-﻿namespace MyBirds.Application.Services;
+﻿namespace MyBirds.Application.Services.Files;
 
 public interface IImageEditor
 {

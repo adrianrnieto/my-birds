@@ -1,5 +1,6 @@
 @page "/species/{SpeciesId:int}"
 @using MyBirds.Client.Helpers
+@using MyBirds.Shared.Requests
 @using MyBirds.Shared.ViewModels
 @inject HttpClient Http
 
@@ -46,7 +47,7 @@ else {
 
     private async Task SelectFavourite(AllPhotosBySpeciesViewModel viewModel)
     {
-        var request = new { PhotoId = viewModel.PhotoId };
+        var request = new AddFavouriteRequest(viewModel.PhotoId);
         await Http.PostAsJsonAsync("favourites", request);
     }
 }

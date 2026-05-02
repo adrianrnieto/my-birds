@@ -2,15 +2,10 @@ using FastEndpoints;
 using MyBirds.Application.Abstract;
 using MyBirds.Application.Queries.GetFavourites;
 using MyBirds.Application.Services.Thumbnails;
+using MyBirds.Shared.Requests;
 using MyBirds.Shared.ViewModels;
 
 namespace MyBirds.Server.Endpoints.Favourites;
-
-public class GetFavouritesRequest
-{
-    public string? Order { get; set; }
-    public string? Family { get; set; }
-}
 
 public class GetFavouritesEndpoint(
     IAsyncQueryHandler<GetFavouritesQueryResult> getFavouritesQueryHandler,

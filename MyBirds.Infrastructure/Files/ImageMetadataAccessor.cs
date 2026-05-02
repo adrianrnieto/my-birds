@@ -1,12 +1,13 @@
 ﻿using MetadataExtractor;
 using MetadataExtractor.Formats.Exif;
 using MyBirds.Application.Models;
+using MyBirds.Application.Services.Files;
 
-namespace MyBirds.Server.Accessors;
+namespace MyBirds.Infrastructure.Files;
 
-public static class ImageMetadataAccessor
+public class ImageMetadataAccessor : IImageMetadataAccessor
 {
-    public static ImageMetadata GetMetadata(string imagePath)
+    public ImageMetadata GetMetadata(string imagePath)
     {
         var metadata = ImageMetadataReader.ReadMetadata(imagePath);
 
@@ -60,5 +61,4 @@ public static class ImageMetadataAccessor
     }
 
     // GetCameraModel
-
 }

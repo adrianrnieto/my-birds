@@ -1,6 +1,6 @@
-﻿using MyBirds.Application.Services;
+﻿using MyBirds.Application.Services.Files;
 
-namespace MyBirds.Infrastructure.FileSystem;
+namespace MyBirds.Infrastructure.Files;
 
 public class FileSystemScanner : IFileSystemScanner
 {

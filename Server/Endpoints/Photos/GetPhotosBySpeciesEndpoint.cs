@@ -2,14 +2,10 @@ using FastEndpoints;
 using MyBirds.Application.Abstract;
 using MyBirds.Application.Queries.GetPhotosBySpecies;
 using MyBirds.Application.Services.Thumbnails;
+using MyBirds.Shared.Requests;
 using MyBirds.Shared.ViewModels;
 
 namespace MyBirds.Server.Endpoints.Photos;
-
-public class GetPhotosBySpeciesRequest
-{
-    public int SpeciesId { get; set; }
-}
 
 public class GetPhotosBySpeciesEndpoint(
     IAsyncQueryHandler<GetPhotosBySpeciesQuery, GetPhotosBySpeciesQueryResult> getPhotosBySpeciesQueryHandler,

@@ -1,8 +1,8 @@
-﻿using MyBirds.Application.Services;
+﻿using MyBirds.Application.Services.Files;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
-namespace MyBirds.Infrastructure.Images;
+namespace MyBirds.Infrastructure.Files;
 
 internal class ImageEditor : IImageEditor
 {

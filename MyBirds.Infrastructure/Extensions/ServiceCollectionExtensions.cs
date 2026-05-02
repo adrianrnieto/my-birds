@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MyBirds.Application.Services;
+using MyBirds.Application.Services.Files;
 using MyBirds.Domain.Birds;
 using MyBirds.Domain.Classifications;
 using MyBirds.Domain.Shared;
@@ -9,9 +9,8 @@ using MyBirds.Infrastructure.Database.Contexts;
 using MyBirds.Infrastructure.Database.Repositories;
 using MyBirds.Infrastructure.Database.Repositories.Read;
 using MyBirds.Infrastructure.Database.Repositories.Write;
-using MyBirds.Infrastructure.FileSystem;
+using MyBirds.Infrastructure.Files;
 using MyBirds.Infrastructure.HostedServices;
-using MyBirds.Infrastructure.Images;
 using MyBirds.Infrastructure.Messaging;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -39,7 +38,9 @@ public static class ServiceCollectionExtensions
     {
         return services
             .AddSingleton<IFileSystemScanner, FileSystemScanner>()
-            .AddSingleton<IImageEditor, ImageEditor>();
+            .AddSingleton<IImageEditor, ImageEditor>()
+            .AddSingleton<IImageMetadataAccessor, ImageMetadataAccessor>()
+            .AddSingleton<IVideoMetadataAccessor, VideoMetadataAccessor>();
     }
 
     public static IServiceCollection ConfigureHostedServices(this IServiceCollection services)

@@ -3,6 +3,7 @@
 	<ItemGroup>
 		<PackageReference Include="Aspire.Confluent.Kafka" />
 		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="MetadataExtractor" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
