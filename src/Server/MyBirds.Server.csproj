@@ -17,7 +17,6 @@
 		<ProjectReference Include="..\MyBirds.Application\MyBirds.Application.csproj" />
 		<ProjectReference Include="..\MyBirds.Migrations\MyBirds.Migrations.csproj" />
 		<ProjectReference Include="..\Shared\MyBirds.Shared.csproj" />
-		<ProjectReference Include="..\src\MyBirds.ServiceDefaults\MyBirds.ServiceDefaults.csproj" />
 	</ItemGroup>
 
 	</Project>

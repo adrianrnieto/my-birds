@@ -8,8 +8,6 @@ using MyBirds.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
-
 // Add services to the container.
 
 builder.Services.AddFastEndpoints();
