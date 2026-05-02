@@ -18,7 +18,7 @@ public class FavouritesController(
 {
 
     [HttpGet]
-    public async Task<IActionResult> GetAsync()
+    public async Task<IActionResult> GetAsync(string? order = null, string? family = null)
     {
         var favourites = await getFavouritesQueryHandler.HandleAsync(CancellationToken.None);
         if (favourites.IsFailure)
@@ -27,15 +27,22 @@ public class FavouritesController(
         }
 
         //var random = new Random();
-        var viewModel = favourites.Value!.SpeciesAndPhotosData.Select(data => new FavouritesViewModel
-        {
-            PhotoUrl = data.Photo?.FullPath,
-            ThumbnailUrl = thumbnailPathService.GetThumbnailRelativePath(data.Photo?.FullPath),
-            ScientificName = data.Species.ScientificName,
-            SpeciesName = data.Species.Name,
-            SpeciesId = data.Species.Id,
-            IsStarred = data.Photo?.IsStarred ?? false
-        }).OrderBy(vm => vm.ScientificName);//.OrderBy(vm => random.Next());
+        var viewModel = favourites.Value!.SpeciesAndPhotosData
+            .Where(data => data.Species.Genus?.Family?.Order != null)
+            .Select(data => new FavouritesViewModel
+            {
+                PhotoUrl = data.Photo?.FullPath,
+                ThumbnailUrl = thumbnailPathService.GetThumbnailRelativePath(data.Photo?.FullPath),
+                ScientificName = data.Species.ScientificName,
+                SpeciesName = data.Species.Name,
+                SpeciesId = data.Species.Id,
+                IsStarred = data.Photo?.IsStarred ?? false,
+                Order = data.Species.Genus?.Family?.Order?.Name ?? string.Empty,
+                Family = data.Species.Genus?.Family?.Name ?? string.Empty
+            })
+            .Where(vm => string.IsNullOrEmpty(order) || vm.Order == order)
+            .Where(vm => string.IsNullOrEmpty(family) || vm.Family == family)
+            .OrderBy(vm => vm.ScientificName);//.OrderBy(vm => random.Next());
 
         return Ok(viewModel);
     }

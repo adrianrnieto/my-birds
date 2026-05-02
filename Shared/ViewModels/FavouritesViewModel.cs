@@ -8,4 +8,6 @@ public record FavouritesViewModel
     public string? PhotoUrl { get; set; }
     public string? ThumbnailUrl { get; set; }
     public bool IsStarred { get; set; }
+    public required string Order { get; set; }
+    public required string Family { get; set; }
 }

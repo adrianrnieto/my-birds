@@ -11,7 +11,13 @@ internal class SpeciesReadRepository(AppDbContext appDbContext) : ISpeciesReadRe
 
     public async Task<IEnumerable<Species>> GetByNamesAsync(IEnumerable<string> names, CancellationToken cancellationToken)
     {
-        return await _appDbContext.Species.AsNoTracking().Where(f => names.Contains(f.Name)).ToListAsync(cancellationToken);
+        return await _appDbContext.Species
+            .AsNoTracking()
+            .Include(s => s.Genus)
+            .ThenInclude(g => g!.Family)
+            .ThenInclude(f => f!.Order)
+            .Where(f => names.Contains(f.Name))
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<string>> GetMissingAsync(IEnumerable<string> names, CancellationToken cancellationToken)
@@ -21,6 +27,11 @@ internal class SpeciesReadRepository(AppDbContext appDbContext) : ISpeciesReadRe
 
     public async Task<IEnumerable<Species>> GetAllAsync(CancellationToken cancellationToken)
     {
-        return await _appDbContext.Species.AsNoTracking().ToListAsync(cancellationToken);
+        return await _appDbContext.Species
+            .AsNoTracking()
+            .Include(s => s.Genus)
+            .ThenInclude(g => g!.Family)
+            .ThenInclude(f => f!.Order)
+            .ToListAsync(cancellationToken);
     }
 }

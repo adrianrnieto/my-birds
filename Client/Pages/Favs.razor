@@ -8,12 +8,36 @@
 
 <h1>Favorites</h1>
 
-@if (_favourites.Count == 0)
+@if (_allFavourites.Count == 0)
 {
     <p>No favorite photos yet.</p>
 }
 else
 {
+    <div class="favs-filters">
+        <div class="filter-group">
+            <label for="orderSelect" class="filter-label">Order:</label>
+            <select id="orderSelect" class="filter-select" @onchange="OnOrderChangedAsync">
+                <option value="">All Orders</option>
+                @foreach (var order in _availableOrders)
+                {
+                    <option value="@order">@order</option>
+                }
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="familySelect" class="filter-label">Family:</label>
+            <select id="familySelect" class="filter-select" @onchange="OnFamilyChangedAsync">
+                <option value="">All Families</option>
+                @foreach (var family in _availableFamilies)
+                {
+                    <option value="@family">@family</option>
+                }
+            </select>
+        </div>
+    </div>
+
     <div class="favs-grid" style="@($"--favs-columns: {Columns};")">
         @foreach (var fav in CurrentPageItems)
         {
@@ -47,20 +71,89 @@ else
     private const int PageSize = 18;
     private const int Columns = 6;
 
-    private List<FavouritesViewModel> _favourites = [];
+    private List<FavouritesViewModel> _allFavourites = [];
+    private List<FavouritesViewModel> _filteredFavourites = [];
     private int _currentPage = 1;
 
-    private int TotalPages => (int)Math.Ceiling(_favourites.Count / (double)PageSize);
+    private string _selectedOrder = string.Empty;
+    private string _selectedFamily = string.Empty;
+
+    private List<string> _availableOrders = [];
+    private List<string> _availableFamilies = [];
+
+    private int TotalPages => (int)Math.Ceiling(_filteredFavourites.Count / (double)PageSize);
 
     private IEnumerable<FavouritesViewModel> CurrentPageItems =>
-        _favourites
+        _filteredFavourites
             .Skip((_currentPage - 1) * PageSize)
             .Take(PageSize);
 
     protected override async Task OnInitializedAsync()
     {
         var response = await Http.GetFromJsonAsync<IEnumerable<FavouritesViewModel>>("favourites");
-        _favourites = response?.ToList() ?? [];
+        _allFavourites = response?.ToList() ?? [];
+        _filteredFavourites = _allFavourites.ToList();
+
+        UpdateAvailableFilters();
+    }
+
+    private void UpdateAvailableFilters()
+    {
+        // Get all unique orders
+        _availableOrders = _allFavourites
+            .Select(f => f.Order)
+            .Distinct()
+            .OrderBy(o => o)
+            .ToList();
+
+        // Update families based on selected order
+        if (string.IsNullOrEmpty(_selectedOrder))
+        {
+            _availableFamilies = _allFavourites
+                .Select(f => f.Family)
+                .Distinct()
+                .OrderBy(f => f)
+                .ToList();
+        }
+        else
+        {
+            _availableFamilies = _allFavourites
+                .Where(f => f.Order == _selectedOrder)
+                .Select(f => f.Family)
+                .Distinct()
+                .OrderBy(f => f)
+                .ToList();
+        }
+    }
+
+    private async Task OnOrderChangedAsync(ChangeEventArgs e)
+    {
+        _selectedOrder = e.Value?.ToString() ?? string.Empty;
+        _selectedFamily = string.Empty; // Reset family when order changes
+        _currentPage = 1; // Reset to first page
+
+        UpdateAvailableFilters();
+        ApplyFilters();
+
+        await Task.CompletedTask;
+    }
+
+    private async Task OnFamilyChangedAsync(ChangeEventArgs e)
+    {
+        _selectedFamily = e.Value?.ToString() ?? string.Empty;
+        _currentPage = 1; // Reset to first page
+
+        ApplyFilters();
+
+        await Task.CompletedTask;
+    }
+
+    private void ApplyFilters()
+    {
+        _filteredFavourites = _allFavourites
+            .Where(f => string.IsNullOrEmpty(_selectedOrder) || f.Order == _selectedOrder)
+            .Where(f => string.IsNullOrEmpty(_selectedFamily) || f.Family == _selectedFamily)
+            .ToList();
     }
 
     private Task OnPageChangedAsync(int newPageNumber)
