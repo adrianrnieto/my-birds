@@ -5,7 +5,7 @@ using MyBirds.Application.Services.Files;
 
 namespace MyBirds.Infrastructure.Files;
 
-public class ImageMetadataAccessor : IImageMetadataAccessor
+internal class ImageMetadataAccessor : IImageMetadataAccessor
 {
     public ImageMetadata GetMetadata(string imagePath)
     {

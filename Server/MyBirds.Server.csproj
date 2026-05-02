@@ -20,5 +20,4 @@
 		<ProjectReference Include="..\src\MyBirds.ServiceDefaults\MyBirds.ServiceDefaults.csproj" />
 	</ItemGroup>
 
-
 	</Project>

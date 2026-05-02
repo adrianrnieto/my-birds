@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace MyBirds.Infrastructure.Files;
 
-public class VideoMetadataAccessor : IVideoMetadataAccessor
+internal class VideoMetadataAccessor : IVideoMetadataAccessor
 {
     //private static readonly Regex FileDateRegex = new(@"(?:IMG_)?(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})\.\w+", RegexOptions.Compiled);
     private static readonly Regex FileDateRegex = new(@"(?:IMG_)?(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})(?:_\d+)?\.\w+", RegexOptions.Compiled);

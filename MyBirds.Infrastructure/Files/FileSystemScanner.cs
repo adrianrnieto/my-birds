@@ -2,7 +2,7 @@
 
 namespace MyBirds.Infrastructure.Files;
 
-public class FileSystemScanner : IFileSystemScanner
+internal class FileSystemScanner : IFileSystemScanner
 {
     public IEnumerable<string> GetAllFilesInFolder(string baseFolderPath)
     {

@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using MyBirds.Application.Options;
+using MyBirds.Application.Services.Locations;
 using MyBirds.Server.Models;
-using MyBirds.Server.Providers;
 using Newtonsoft.Json;
 using Directory = System.IO.Directory;
 
@@ -19,11 +19,13 @@ public class BirdsService : IBirdsService
 
     private readonly IDistributedCache _cache;
     private readonly string _path;
+    private readonly ICountryDetector _countryDetector;
 
-    public BirdsService(IDistributedCache cache, IOptions<PhotoStorageOptions> photoStorageOptions)
+    public BirdsService(IDistributedCache cache, IOptions<PhotoStorageOptions> photoStorageOptions, ICountryDetector countryDetector)
     {
         _cache = cache;
         _path = photoStorageOptions.Value.PhotoRootPath;
+        _countryDetector = countryDetector;
     }
 
     public async Task<IEnumerable<BirdSpecies>> GetAll(CancellationToken cancellationToken)
@@ -42,7 +44,7 @@ public class BirdsService : IBirdsService
 
     }
 
-    private static IEnumerable<BirdSpecies> LoadBirds(string rootPath)
+    private IEnumerable<BirdSpecies> LoadBirds(string rootPath)
     {
         var result = new List<BirdSpecies>();
 
@@ -63,14 +65,14 @@ public class BirdsService : IBirdsService
         return result;
     }
 
-    private static BirdSpecies GetViewModel(string order, string family, string spec)
+    private BirdSpecies GetViewModel(string order, string family, string spec)
     {
         try
         {
             var picturesPath = Directory.GetFiles(spec);
             var speciesFolderName = spec.Split("\\").Last();
 
-            var countries = picturesPath.Select(CountryProvider.GetCountryFromFile);
+            var countries = picturesPath.Select(_countryDetector.DetectFromFile);
 
             return new BirdSpecies
             {
