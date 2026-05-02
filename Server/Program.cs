@@ -1,3 +1,4 @@
+using FastEndpoints;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
@@ -11,7 +12,7 @@ builder.AddServiceDefaults();
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddFastEndpoints();
 builder.Services.AddRazorPages();
 builder.Services.AddMemoryCache();
 builder.Services.AddSingleton<IBirdsService, BirdsService>();
@@ -50,7 +51,7 @@ app.MapStaticAssets();
 app.UseRouting();
 
 app.MapRazorPages();
-app.MapControllers();
+app.MapFastEndpoints();
 
 app.UseStaticFiles(new StaticFileOptions
 {

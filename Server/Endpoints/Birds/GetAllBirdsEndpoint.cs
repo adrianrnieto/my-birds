@@ -1,29 +1,23 @@
-using Microsoft.AspNetCore.Mvc;
+using FastEndpoints;
 using MyBirds.Server.Models;
 using MyBirds.Server.Services;
 using MyBirds.Shared;
 
-namespace MyBirds.Server.Controllers;
+namespace MyBirds.Server.Endpoints.Birds;
 
-[ApiController]
-[Route("[controller]")]
-public class BirdsController : ControllerBase
+public class GetAllBirdsEndpoint(IBirdsService birdsService) : EndpointWithoutRequest<IEnumerable<OrderGroupViewModel>>
 {
-    private readonly IBirdsService _birdsService;
-
-    public BirdsController(IBirdsService birdsService)
+    public override void Configure()
     {
-        _birdsService = birdsService;
+        Get("/birds");
+        AllowAnonymous();
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Get()
+    public override async Task HandleAsync(CancellationToken ct)
     {
-        var birds = await _birdsService.GetAll(CancellationToken.None);
-
-        var viewModel = GetViewModel(birds);
-
-        return Ok(viewModel);
+        var birds = await birdsService.GetAll(ct);
+        Response = GetViewModel(birds).ToList();
+        await Task.CompletedTask;
     }
 
     private static IEnumerable<OrderGroupViewModel> GetViewModel(IEnumerable<BirdSpecies> birds)
