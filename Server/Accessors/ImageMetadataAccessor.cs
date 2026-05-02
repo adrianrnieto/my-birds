@@ -24,8 +24,8 @@ public static class ImageMetadataAccessor
 
         var location = gps?.GetGeoLocation();
 
-        return location != null
-            ? new ImageMetadataLocation(location.Latitude, location.Longitude)
+        return location.HasValue
+            ? new ImageMetadataLocation(location.Value.Latitude, location.Value.Longitude)
             : null;
     }
 
