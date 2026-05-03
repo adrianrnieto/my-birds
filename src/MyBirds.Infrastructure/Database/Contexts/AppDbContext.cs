@@ -5,7 +5,7 @@ using MyBirds.Infrastructure.Database.Contexts.Configurations;
 
 namespace MyBirds.Infrastructure.Database.Contexts;
 
-internal class AppDbContext : DbContext
+public class AppDbContext : DbContext
 {
     public DbSet<Order> Orders { get; set; }
     public DbSet<Family> Families { get; set; }

@@ -1,11 +1,10 @@
 ﻿using Confluent.Kafka;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using MyBirds.Application.Services.Files;
 using MyBirds.Domain.Photography.Events;
 using MyBirds.Domain.Photography.Repositories;
 using MyBirds.Domain.Shared;
 using MyBirds.Domain.Taxonomy.Repositories;
+using MyBirds.Infrastructure.Database.Configuration;
 using MyBirds.Infrastructure.Database.Repositories.Read;
 using MyBirds.Infrastructure.Database.Repositories.Write;
 using MyBirds.Infrastructure.Files;
@@ -20,8 +19,7 @@ public static class ServiceCollectionExtensions
     {
         return services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlServer(configuration["Database:ConnectionString"], x => x.MigrationsAssembly("MyBirds.Migrations"));
-            //options.LogTo(Console.WriteLine);
+            options.ConfigureDbContextOptions(configuration);
         });
     }
 
