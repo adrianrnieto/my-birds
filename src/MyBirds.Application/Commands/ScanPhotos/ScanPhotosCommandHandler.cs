@@ -1,7 +1,6 @@
-﻿using MyBirds.Application.Abstract;
-using MyBirds.Application.Commands.RegisterPhotosAndTaxonomy;
+﻿using MyBirds.Application.Commands.RegisterPhotosAndTaxonomy;
 using MyBirds.Application.Services.Files;
-using MyBirds.Domain.Birds;
+using MyBirds.Domain.Birds.Repositories;
 
 namespace MyBirds.Application.Commands.ScanPhotos;
 

@@ -1,10 +1,10 @@
-﻿using MyBirds.Application.Abstract;
-using MyBirds.Application.Commands.AddFavouritePhoto;
+﻿using MyBirds.Application.Commands.AddFavouritePhoto;
 using MyBirds.Application.Commands.RegisterPhotosAndTaxonomy;
 using MyBirds.Application.Commands.ScanPhotos;
 using MyBirds.Application.Queries.GetFavourites;
 using MyBirds.Application.Queries.GetPhotosBySpecies;
 using MyBirds.Application.Services.Locations;
+using MyBirds.Application.Services.Paths;
 using MyBirds.Application.Services.Thumbnails;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -41,6 +41,7 @@ public static class ServiceCollectionExtensions
             .AddSingleton<IDateToCountryResolver, DateToCountryResolver>()
             .AddSingleton<ICameraToCountryResolver, CameraToCountryResolver>()
             .AddSingleton<ICountryDetector, CountryDetector>()
+            .AddSingleton<IBirdResourcePathParser, BirdResourcePathParser>()
             .AddScoped<IThumbnailBatchGenerator, ThumbnailBatchGenerator>()
             .AddScoped<IThumbnailGenerator, ThumbnailGenerator>()
             .AddScoped<IPhotoCollectorStrategy, OnlyFavouritesCollectorStrategy>()

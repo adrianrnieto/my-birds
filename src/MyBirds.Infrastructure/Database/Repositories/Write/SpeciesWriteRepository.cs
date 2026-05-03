@@ -1,6 +1,4 @@
-﻿using MyBirds.Domain.Birds;
-using MyBirds.Domain.Classifications;
-using MyBirds.Infrastructure.Database.Contexts;
+﻿using MyBirds.Domain.Classifications.Repositories;
 
 namespace MyBirds.Infrastructure.Database.Repositories.Write;
 

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyBirds.Domain.Birds;
-using MyBirds.Domain.Classifications;
-using MyBirds.Infrastructure.Database.Contexts;
+using MyBirds.Domain.Birds.Repositories;
 
 namespace MyBirds.Infrastructure.Database.Repositories.Read;
 

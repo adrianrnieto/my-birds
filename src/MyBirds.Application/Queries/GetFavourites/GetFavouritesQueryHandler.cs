@@ -1,5 +1,5 @@
-﻿using MyBirds.Application.Abstract;
-using MyBirds.Domain.Classifications;
+﻿using MyBirds.Domain.Birds.Repositories;
+using MyBirds.Domain.Classifications.Repositories;
 
 namespace MyBirds.Application.Queries.GetFavourites;
 

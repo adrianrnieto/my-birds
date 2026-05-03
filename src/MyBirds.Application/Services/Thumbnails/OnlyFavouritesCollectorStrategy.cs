@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using MyBirds.Application.Abstract;
 using MyBirds.Application.Queries.GetFavourites;
 
 namespace MyBirds.Application.Services.Thumbnails;

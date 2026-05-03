@@ -1,6 +1,4 @@
-﻿using MyBirds.Domain.Shared;
-
-namespace MyBirds.Application.Events;
+﻿namespace MyBirds.Application.Events;
 
 public interface IDomainEventDispatcher
 {

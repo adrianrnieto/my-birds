@@ -1,6 +1,5 @@
-﻿using MyBirds.Application.Abstract;
-using MyBirds.Domain.Birds;
-using MyBirds.Domain.Classifications;
+﻿using MyBirds.Domain.Birds;
+using MyBirds.Domain.Birds.Repositories;
 
 namespace MyBirds.Application.Commands.AddFavouritePhoto;
 

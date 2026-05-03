@@ -1,10 +1,15 @@
-﻿using MyBirds.Application.Dtos;
+using MyBirds.Application.Dtos;
 
-namespace MyBirds.Application.Helpers;
+namespace MyBirds.Application.Services.Paths;
 
-internal static class BirdResourcePathParser
+internal interface IBirdResourcePathParser
 {
-    public static IEnumerable<BirdResourcePathDto> Parse(IEnumerable<string> absolutePaths, string basePath)
+    IEnumerable<BirdResourcePathDto> Parse(IEnumerable<string> absolutePaths, string basePath);
+}
+
+internal class BirdResourcePathParser : IBirdResourcePathParser
+{
+    public IEnumerable<BirdResourcePathDto> Parse(IEnumerable<string> absolutePaths, string basePath)
     {
         var relativePaths = absolutePaths.Select(path => path.Replace(basePath + Path.DirectorySeparatorChar, string.Empty));
         var splitRelativePaths = relativePaths.Select(relativePath => relativePath.Split(Path.DirectorySeparatorChar));

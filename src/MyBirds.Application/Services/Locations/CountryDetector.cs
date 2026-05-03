@@ -3,7 +3,13 @@ using MyBirds.Application.Services.Files;
 
 namespace MyBirds.Application.Services.Locations;
 
-public class CountryDetector(
+public interface ICountryDetector
+{
+    Country DetectFromFile(string filePath);
+    Country DetectFromImage(string imagePath);
+}
+
+internal class CountryDetector(
     IVideoMetadataAccessor videoMetadataAccessor,
     IImageMetadataAccessor imageMetadataAccessor,
     ILocationToCountryResolver locationResolver,

@@ -1,6 +1,4 @@
-﻿using MyBirds.Domain.Shared;
-
-namespace MyBirds.Domain.Classifications;
+﻿namespace MyBirds.Domain.Classifications;
 
 public partial class Family : NamedEntity
 {

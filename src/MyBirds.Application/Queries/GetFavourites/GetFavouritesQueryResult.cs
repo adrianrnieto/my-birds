@@ -1,5 +1,4 @@
-﻿using MyBirds.Application.Abstract;
-using MyBirds.Domain.Birds;
+﻿using MyBirds.Domain.Birds;
 
 namespace MyBirds.Application.Queries.GetFavourites;
 

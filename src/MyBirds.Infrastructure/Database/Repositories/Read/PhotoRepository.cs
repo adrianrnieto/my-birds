@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyBirds.Domain.Birds;
-using MyBirds.Infrastructure.Database.Contexts;
+using Microsoft.EntityFrameworkCore;
+using MyBirds.Domain.Birds.Repositories;
 using MyBirds.Infrastructure.Shared;
 
-namespace MyBirds.Infrastructure.Database.Repositories;
+namespace MyBirds.Infrastructure.Database.Repositories.Read;
 
 internal class PhotoRepository(AppDbContext appDbContext) : BaseRepository(appDbContext), IPhotoRepository
 {

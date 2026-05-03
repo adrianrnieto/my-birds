@@ -2,11 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MyBirds.Application.Services.Files;
-using MyBirds.Domain.Birds;
-using MyBirds.Domain.Classifications;
+using MyBirds.Domain.Birds.Repositories;
+using MyBirds.Domain.Classifications.Repositories;
 using MyBirds.Domain.Shared;
-using MyBirds.Infrastructure.Database.Contexts;
-using MyBirds.Infrastructure.Database.Repositories;
 using MyBirds.Infrastructure.Database.Repositories.Read;
 using MyBirds.Infrastructure.Database.Repositories.Write;
 using MyBirds.Infrastructure.Files;

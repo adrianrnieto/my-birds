@@ -1,5 +1,4 @@
 ﻿using MyBirds.Domain.Birds;
-using MyBirds.Domain.Shared;
 
 namespace MyBirds.Domain.Classifications;
 

@@ -2,7 +2,13 @@ using MyBirds.Shared;
 
 namespace MyBirds.Application.Services.Locations;
 
-public class DateToCountryResolver : IDateToCountryResolver
+public interface IDateToCountryResolver
+{
+    Country ResolveByCreationDate(DateTime creationDate);
+}
+
+
+internal class DateToCountryResolver : IDateToCountryResolver
 {
     private static readonly DateRangeCountry[] DateRanges =
     {

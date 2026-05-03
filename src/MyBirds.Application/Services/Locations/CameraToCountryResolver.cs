@@ -2,7 +2,12 @@ using MyBirds.Shared;
 
 namespace MyBirds.Application.Services.Locations;
 
-public class CameraToCountryResolver : ICameraToCountryResolver
+public interface ICameraToCountryResolver
+{
+    Country ResolveByCamera(string cameraMaker);
+}
+
+internal class CameraToCountryResolver : ICameraToCountryResolver
 {
     private static readonly Dictionary<string, Country> CameraCountryMap = new()
     {

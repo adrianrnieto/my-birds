@@ -1,6 +1,4 @@
-﻿using MyBirds.Domain.Shared;
-
-namespace MyBirds.Domain.Birds;
+﻿namespace MyBirds.Domain.Birds;
 
 public partial class Photo : NamedEntity
 {
