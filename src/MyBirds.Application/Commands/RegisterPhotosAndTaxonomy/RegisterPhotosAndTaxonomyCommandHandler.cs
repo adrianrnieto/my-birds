@@ -1,9 +1,9 @@
 ﻿using MyBirds.Application.Dtos;
 using MyBirds.Application.Services.Paths;
-using MyBirds.Domain.Birds;
-using MyBirds.Domain.Birds.Repositories;
-using MyBirds.Domain.Classifications;
-using MyBirds.Domain.Classifications.Repositories;
+using MyBirds.Domain.Photography.Entities;
+using MyBirds.Domain.Photography.Repositories;
+using MyBirds.Domain.Taxonomy.Entities;
+using MyBirds.Domain.Taxonomy.Repositories;
 
 namespace MyBirds.Application.Commands.RegisterPhotosAndTaxonomy;
 

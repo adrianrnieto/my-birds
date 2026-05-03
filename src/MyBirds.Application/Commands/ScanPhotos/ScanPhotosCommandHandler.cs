@@ -1,31 +1,27 @@
 ﻿using MyBirds.Application.Commands.RegisterPhotosAndTaxonomy;
 using MyBirds.Application.Services.Files;
-using MyBirds.Domain.Birds.Repositories;
+using MyBirds.Domain.Photography.Repositories;
 
 namespace MyBirds.Application.Commands.ScanPhotos;
 
 internal class ScanPhotosCommandHandler(
     IFileSystemScanner fileSystemScanner,
-    IPhotoRepository photoRepository,
+    IPhotoReadRepository photoReadRepository,
     IAsyncCommandHandler<RegisterPhotosAndTaxonomyCommand> registerPhotosAndTaxonomyCommandHandler)
     : IAsyncCommandHandler<ScanPhotosCommand>
 {
     private const int _batchSize = 500;
 
-    private readonly IFileSystemScanner _fileSystemScanner = fileSystemScanner;
-    private readonly IPhotoRepository _photoRepository = photoRepository;
-    private readonly IAsyncCommandHandler<RegisterPhotosAndTaxonomyCommand> _registerPhotosAndTaxonomyCommandHandler = registerPhotosAndTaxonomyCommandHandler;
-
     public async Task HandleAsync(ScanPhotosCommand command, CancellationToken cancellationToken)
     {
-        var photos = _fileSystemScanner.GetAllFilesInFolder(command.FolderPath);
+        var photos = fileSystemScanner.GetAllFilesInFolder(command.FolderPath);
         foreach (var batch in photos.Chunk(_batchSize))
         {
-            var newPhotos = await _photoRepository.GetMissingPhotosAsync(batch, cancellationToken);
+            var newPhotos = await photoReadRepository.GetMissingByNamesAsync(batch, cancellationToken);
             if (newPhotos is not null)
             {
                 var registerPhotosAndTaxonomyCommand = new RegisterPhotosAndTaxonomyCommand { PhotoPaths = newPhotos, BasePath = command.FolderPath };
-                await _registerPhotosAndTaxonomyCommandHandler.HandleAsync(registerPhotosAndTaxonomyCommand, cancellationToken);
+                await registerPhotosAndTaxonomyCommandHandler.HandleAsync(registerPhotosAndTaxonomyCommand, cancellationToken);
             }
         }
     }

@@ -1,4 +1,6 @@
-namespace MyBirds.Domain.Birds.Repositories;
+using MyBirds.Domain.Photography.Entities;
+
+namespace MyBirds.Domain.Photography.Repositories;
 
 /// <summary>
 /// Defines write operations for photo repository access.

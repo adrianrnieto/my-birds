@@ -1,6 +1,6 @@
-﻿using MyBirds.Domain.Classifications;
+﻿using MyBirds.Domain.Photography.Entities;
 
-namespace MyBirds.Domain.Birds;
+namespace MyBirds.Domain.Taxonomy.Entities;
 
 public partial class Species : NamedEntity
 {

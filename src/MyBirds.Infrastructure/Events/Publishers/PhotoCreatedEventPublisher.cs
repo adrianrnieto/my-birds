@@ -1,4 +1,5 @@
-﻿using MyBirds.Infrastructure.Messaging;
+﻿using MyBirds.Domain.Photography.Events;
+using MyBirds.Infrastructure.Messaging;
 
 namespace MyBirds.Infrastructure.Events.Publishers;
 

@@ -1,6 +1,4 @@
-﻿using MyBirds.Domain.Birds;
-
-namespace MyBirds.Domain.Classifications;
+﻿namespace MyBirds.Domain.Taxonomy.Entities;
 
 public partial class Genus : NamedEntity
 {

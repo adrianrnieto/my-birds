@@ -1,3 +1,3 @@
-﻿namespace MyBirds.Domain.Birds;
+﻿namespace MyBirds.Domain.Photography.Events;
 
 public sealed record PhotoCreatedEvent(int PhotoId) : BaseDomainEvent;

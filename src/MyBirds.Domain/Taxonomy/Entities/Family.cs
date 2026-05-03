@@ -1,4 +1,4 @@
-﻿namespace MyBirds.Domain.Classifications;
+﻿namespace MyBirds.Domain.Taxonomy.Entities;
 
 public partial class Family : NamedEntity
 {

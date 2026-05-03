@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyBirds.Domain.Birds.Repositories;
+using MyBirds.Domain.Photography.Entities;
+using MyBirds.Domain.Photography.Repositories;
 
 namespace MyBirds.Infrastructure.Database.Repositories.Read;
 

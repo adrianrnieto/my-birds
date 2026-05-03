@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyBirds.Domain.Birds;
+using MyBirds.Domain.Taxonomy.Entities;
 
 namespace MyBirds.Infrastructure.Database.Contexts.Configurations;
 

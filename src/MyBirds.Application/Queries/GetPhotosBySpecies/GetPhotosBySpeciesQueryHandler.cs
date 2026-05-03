@@ -1,4 +1,4 @@
-﻿using MyBirds.Domain.Birds.Repositories;
+﻿using MyBirds.Domain.Photography.Repositories;
 
 namespace MyBirds.Application.Queries.GetPhotosBySpecies;
 

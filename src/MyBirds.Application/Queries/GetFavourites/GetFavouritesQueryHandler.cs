@@ -1,5 +1,5 @@
-﻿using MyBirds.Domain.Birds.Repositories;
-using MyBirds.Domain.Classifications.Repositories;
+﻿using MyBirds.Domain.Photography.Repositories;
+using MyBirds.Domain.Taxonomy.Repositories;
 
 namespace MyBirds.Application.Queries.GetFavourites;
 

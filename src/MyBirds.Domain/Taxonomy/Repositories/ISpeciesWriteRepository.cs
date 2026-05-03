@@ -1,6 +1,6 @@
-using MyBirds.Domain.Birds;
+using MyBirds.Domain.Taxonomy.Entities;
 
-namespace MyBirds.Domain.Classifications.Repositories;
+namespace MyBirds.Domain.Taxonomy.Repositories;
 
 public interface ISpeciesWriteRepository
 {

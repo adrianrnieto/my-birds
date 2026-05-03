@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MyBirds.Domain.Classifications;
-using MyBirds.Domain.Classifications.Repositories;
+using MyBirds.Domain.Taxonomy.Entities;
+using MyBirds.Domain.Taxonomy.Repositories;
 
 namespace MyBirds.Infrastructure.Database.Repositories.Read;
 

@@ -1,4 +1,5 @@
-﻿using MyBirds.Domain.Birds;
+﻿using MyBirds.Domain.Photography.Entities;
+using MyBirds.Domain.Taxonomy.Entities;
 
 namespace MyBirds.Application.Queries.GetFavourites;
 
