@@ -13,10 +13,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Client\MyBirds.Client.csproj" />
+		<ProjectReference Include="..\MyBirds.Client\MyBirds.Client.csproj" />
 		<ProjectReference Include="..\MyBirds.Application\MyBirds.Application.csproj" />
 		<ProjectReference Include="..\MyBirds.Migrations\MyBirds.Migrations.csproj" />
-		<ProjectReference Include="..\Shared\MyBirds.Shared.csproj" />
 	</ItemGroup>
 
 	</Project>

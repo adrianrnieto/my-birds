@@ -14,9 +14,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MyBirds.Application\MyBirds.Application.csproj" />
-	  <ProjectReference Include="..\MyBirds.Domain\MyBirds.Domain.csproj" />
-	  <ProjectReference Include="..\Shared\MyBirds.Shared.csproj" />
+		<ProjectReference Include="..\MyBirds.Application\MyBirds.Application.csproj" />
+		<ProjectReference Include="..\MyBirds.Domain\MyBirds.Domain.csproj" />
+		<ProjectReference Include="..\MyBirds.Shared\MyBirds.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
